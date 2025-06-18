@@ -1,0 +1,27 @@
+
+const usuariosConfig = {
+  "guilherme": { senha: "12345", tipo: "gerencial" },
+  "alex":     { senha: "12345", tipo: "comum" },
+  "katlrin":  { senha: "12345", tipo: "gerencial" },
+  "eduarda":  { senha: "12345", tipo: "comum" },
+  "brayan":   { senha: "12345", tipo: "comum" },
+  "maykon":   { senha: "12345", tipo: "gerencial" },
+  "lucas":    { senha: "12345", tipo: "gerencial" },
+  "osvaldo":  { senha: "12345", tipo: "comum" },
+  "paulo":    { senha: "12345", tipo: "comum" },
+  "fossile":  { senha: "12345", tipo: "gerencial" },
+  "frigheto": { senha: "12345", tipo: "comum" },
+  "deivison": { senha: "12345", tipo: "gerencial" },
+  "thiago":   { senha: "12345", tipo: "gerencial" },
+  "hernane":  { senha: "12345", tipo: "comum" },
+  "silvio":   { senha: "12345", tipo: "comum" },
+  "anna":     { senha: "12345", tipo: "comum" },
+  "sergio":   { senha: "12345", tipo: "comum" },
+  "jhony":    { senha: "12345", tipo: "gerencial" },
+  "joao":     { senha: "12345", tipo: "gerencial" },
+  "anderson": { senha: "12345", tipo: "comum" },
+  "kaleu":    { senha: "12345", tipo: "comum" },
+  "geison":   { senha: "12345", tipo: "comum" },
+  "peterson": { senha: "12345", tipo: "comum" },
+  "michael":  { senha: "12345", tipo: "gerencial" }
+};
