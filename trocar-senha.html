@@ -1,16 +1,14 @@
-<!-- trocar-senha.html -->
-<!DOCTYPE html>
 
+<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="utf-8"/>
-<title>Trocar Senha</title>
-<style>
+  <meta charset="UTF-8" />
+  <title>Trocar Senha</title>
+  <style>
     body {
       font-family: Arial, sans-serif;
       background: url('1.png') no-repeat center center fixed;
       background-size: cover;
-      background-color: #2617ff;
       margin: 0;
       height: 100vh;
       display: flex;
@@ -18,23 +16,16 @@
       align-items: center;
     }
     .box {
-      background-color: rgba(255, 255, 255, 0.92);
-      padding: 30px 40px;
-      border-radius: 12px;
-      box-shadow: 0 0 15px rgba(0,0,0,0.3);
+      background-color: rgba(255, 255, 255, 0.95);
+      padding: 30px;
+      border-radius: 10px;
       width: 320px;
       text-align: center;
     }
-    h2 {
-      margin-bottom: 20px;
-      color: #2617ff;
-    }
     input, button {
       width: 100%;
-      padding: 12px;
+      padding: 10px;
       margin: 10px 0;
-      font-size: 16px;
-      border-radius: 6px;
     }
     button {
       background-color: #2617ff;
@@ -42,65 +33,37 @@
       border: none;
       cursor: pointer;
     }
-    button:hover {
-      background-color: #180fd4;
-    }
   </style>
 </head>
 <body>
-<div class="box">
-<h2>Trocar Senha</h2>
-<input id="novaSenha" placeholder="Nova senha" type="password"/>
-<button onclick="salvarNovaSenha()">Salvar</button>
-</div>
+  <div class="box">
+    <h2>Trocar Senha</h2>
+    <input type="password" id="novaSenha" placeholder="Nova senha" />
+    <button onclick="salvarNovaSenha()">Salvar</button>
+  </div>
+  <script>
+    async function salvarNovaSenha() {
+      const usuario = sessionStorage.getItem("usuarioCamargo");
+      const novaSenha = document.getElementById("novaSenha").value.trim();
 
-<script>
-  if (sessionStorage.getItem("logadoCamargo") !== "sim") {
-    window.location.href = "login.html";
-  }
+      if (!usuario || novaSenha.length < 5) {
+        alert("Senha inválida.");
+        return;
+      }
 
-  function salvarNovaSenha() {
-    const novaSenha = document.getElementById("novaSenha").value.trim();
-    const usuario = sessionStorage.getItem("usuarioCamargo");
+      const resposta = await fetch("https://backend-404v.onrender.com/trocar-senha", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ usuario, novaSenha })
+      });
 
-    if (novaSenha.length < 5) {
-      alert("A senha deve ter no mínimo 5 caracteres.");
-      return;
+      if (resposta.ok) {
+        alert("Senha alterada com sucesso!");
+        window.location.href = "index.html";
+      } else {
+        alert("Erro ao salvar senha.");
+      }
     }
-
-    if (novaSenha === "12345") {
-      alert("Por segurança, escolha uma senha diferente da padrão.");
-      return;
-    }
-
-    localStorage.setItem(`senha_${usuario}`, novaSenha);
-    localStorage.setItem(`senhaTrocada_${usuario}`, "sim");
-    alert("Senha alterada com sucesso!");
-    window.location.href = "index.html";
-  }
-</script>
-
-
-<script>
-if (sessionStorage.getItem("logadoCamargo") !== "sim") {
-  window.location.href = "login.html";
-}
-
-function salvarNovaSenha() {
-  const novaSenha = document.getElementById("novaSenha").value.trim();
-  const usuario = sessionStorage.getItem("usuarioCamargo");
-
-  if (novaSenha.length < 5) {
-    alert("A senha deve ter no mínimo 5 caracteres.");
-    return;
-  }
-
-  localStorage.setItem(`senha_${usuario}`, novaSenha);
-  localStorage.setItem(`senhaTrocada_${usuario}`, "sim");
-  alert("Senha alterada com sucesso!");
-  window.location.href = "index.html";
-}
-</script>
-
+  </script>
 </body>
 </html>
