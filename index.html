@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -9,6 +8,7 @@
       font-family: Arial, sans-serif;
       background: url('1.png') no-repeat center center fixed;
       background-size: cover;
+      background-color: #2617ff;
       margin: 0;
       height: 100vh;
       display: flex;
@@ -70,29 +70,24 @@
     .logout:hover {
       background-color: #cc0000;
     }
-
-    .gerencial {
-      display: none;
-    }
   </style>
-</head>
-<body>
 
   <script>
     if (sessionStorage.getItem("logadoCamargo") !== "sim") {
       window.location.href = "login.html";
     }
   </script>
-
+</head>
+<body>
   <div class="painel-box">
     <h2>Bem-vindo(a), <span id="nomeUsuario"></span> 👋</h2>
 
     <div class="button-container">
-      <a class="botao" href="protocolo.html" target="_blank">Protocolo de Contrato</a>
-      <a class="botao" href="simulador.html" target="_blank">Simulador de Custo</a>
-      <a class="botao gerencial" href="Teste 02.html" target="_blank">Em Breve</a>
-      <a class="botao gerencial" href="https://docs.google.com/spreadsheets/d/1J8HUaIJG-ghcuSSTZtm21xebX6OzdlQg/edit?usp=sharing&ouid=111477046045871229131&rtpof=true&sd=true" target="_blank">Roleta Gerencial</a>
-      <a class="botao gerencial" href="ficha.html" target="_blank">Em Breve</a>
+      <a class="botao" href="protocolo.html">Protocolo de Contrato</a>
+      <a class="botao" href="simulador.html">Simulador de Custo</a>
+      <a class="botao" href="Teste 02.html">Em Breve</a>
+      <a class="botao" href="https://docs.google.com/spreadsheets/d/1J8HUaIJG-ghcuSSTZtm21xebX6OzdlQg/edit?usp=sharing" target="_blank">Roleta Gerencial</a>
+      <a class="botao" href="ficha.html">Em Breve</a>
     </div>
   </div>
 
@@ -100,24 +95,16 @@
 
   <script>
     function capitalizar(str) {
-      if (!str) return "";
       return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
     }
 
     const nome = sessionStorage.getItem("usuarioCamargo");
-    const tipo = sessionStorage.getItem("tipoCamargo");
-
     document.getElementById("nomeUsuario").textContent = capitalizar(nome);
-
-    if (tipo === "gerencial") {
-      document.querySelectorAll(".gerencial").forEach(btn => btn.style.display = "block");
-    }
 
     function logout() {
       sessionStorage.clear();
-      location.href = "login.html";
+      window.location.href = "login.html";
     }
   </script>
-
 </body>
 </html>
