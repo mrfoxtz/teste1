@@ -9,7 +9,6 @@
       font-family: Arial, sans-serif;
       background: url('1.png') no-repeat center center fixed;
       background-size: cover;
-      background-color: #2617ff;
       margin: 0;
       height: 100vh;
       display: flex;
@@ -71,6 +70,10 @@
     .logout:hover {
       background-color: #cc0000;
     }
+
+    .gerencial {
+      display: none;
+    }
   </style>
 </head>
 <body>
@@ -102,30 +105,18 @@
     }
 
     const nome = sessionStorage.getItem("usuarioCamargo");
+    const tipo = sessionStorage.getItem("tipoCamargo");
+
     document.getElementById("nomeUsuario").textContent = capitalizar(nome);
 
-    const tipo = sessionStorage.getItem("tipoCamargo");
-    if (tipo === "comum") {
-      document.querySelectorAll(".gerencial").forEach(el => el.style.display = "none");
+    if (tipo === "gerencial") {
+      document.querySelectorAll(".gerencial").forEach(btn => btn.style.display = "block");
     }
 
     function logout() {
       sessionStorage.clear();
       location.href = "login.html";
     }
-
-    document.addEventListener('keydown', function(e) {
-      if (
-        e.key === "F12" ||
-        (e.ctrlKey && e.shiftKey && ["I", "J", "C"].includes(e.key.toUpperCase())) ||
-        (e.ctrlKey && e.key.toUpperCase() === "U")
-      ) {
-        e.preventDefault();
-      }
-    });
-    document.addEventListener('contextmenu', function(e) {
-      e.preventDefault();
-    });
   </script>
 
 </body>
