@@ -9,195 +9,70 @@
       font-family: Arial, sans-serif;
       background: url('1.png') no-repeat center center fixed;
       background-size: cover;
-      background-color: #243c7c;
       margin: 0;
       height: 100vh;
       display: flex;
       justify-content: center;
       align-items: center;
     }
-
     .login-box {
-      background-color: rgba(255, 255, 255, 0.92);
-      padding: 30px 40px;
-      border-radius: 12px;
-      box-shadow: 0 0 15px rgba(0,0,0,0.3);
+      background-color: rgba(255, 255, 255, 0.95);
+      padding: 30px;
+      border-radius: 10px;
       width: 320px;
       text-align: center;
     }
-
-    h2 {
-      margin-bottom: 20px;
-      color: #2617ff;
-    }
-
-    input {
+    input, button {
       width: 100%;
-      padding: 12px;
+      padding: 10px;
       margin: 10px 0;
-      font-size: 16px;
-      border-radius: 6px;
-      border: 1px solid #ccc;
     }
-
     button {
-      width: 100%;
-      padding: 12px;
       background-color: #2617ff;
       color: white;
-      font-size: 18px;
       border: none;
-      border-radius: 6px;
       cursor: pointer;
-      margin-top: 15px;
     }
-
-    button:hover {
-      background-color: #180fd4;
-    }
-
     #erro {
-      display: none;
-      margin-top: 12px;
       color: red;
-      font-weight: bold;
+      display: none;
     }
   </style>
 </head>
 <body>
-
   <div class="login-box">
     <h2>Login - Ferramentas Camargo</h2>
-    <input type="text" id="usuario" placeholder="Usuário" autocomplete="off" />
-    <input type="password" id="senha" placeholder="Senha" autocomplete="off" />
+    <input type="text" id="usuario" placeholder="Usuário" />
+    <input type="password" id="senha" placeholder="Senha" />
     <button onclick="login()">Entrar</button>
     <div id="erro">Usuário ou senha incorretos!</div>
   </div>
-
   <script>
-    function removeAcentos(str) {
-      return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-    }
+    async function login() {
+      const usuario = document.getElementById("usuario").value.trim().toLowerCase();
+      const senha = document.getElementById("senha").value.trim();
+      const erro = document.getElementById("erro");
 
-    const usuarios = {
-      "guilherme": "12345",
-      "alex": "12345",
-      "katlrin": "12345",
-      "eduarda": "12345",
-      "brayan": "12345",
-      "maykon": "12345",
-      "lucas": "12345",
-      "osvaldo": "12345",
-      "paulo": "12345",
-      "fossile": "12345",
-      "frigheto": "12345",
-      "deivison": "12345",
-      "thiago": "12345",
-      "hernane": "12345",
-      "silvio": "12345",
-      "anna": "12345",
-      "sergio": "12345",
-      "jhony": "12345",
-      "joao": "12345",
-      "anderson": "12345",
-      "kaleu": "12345",
-      "geison": "12345",
-      "peterson": "12345",
-      "michael": "12345"
-    };
-
-    const gerenciais = [
-      "guilherme", "jhony", "joao", "michael", "katlrin",
-      "fossile", "maykon", "thiago", "deivison", "lucas"
-    ];
-
-    
-// FORÇA RESET de senha salva ao digitar no campo de usuário
-const usuarioInputEl = document.getElementById('usuario');
-if (usuarioInputEl) {
-  usuarioInputEl.addEventListener('input', () => {
-    const usuarioFormatado = removeAcentos(usuarioInputEl.value.trim().toLowerCase());
-    localStorage.removeItem(`senha_${usuarioFormatado}`);
-    localStorage.removeItem(`senhaTrocada_${usuarioFormatado}`);
-  });
-}
-
-
-function login() {
-      const usuarioInput = document.getElementById('usuario').value.trim();
-      const senhaInput = document.getElementById('senha').value.trim();
-      const erro = document.getElementById('erro');
-      const usuarioFormatado = removeAcentos(usuarioInput.toLowerCase());
-
-      const senhaSalva = localStorage.getItem(`senha_${usuarioFormatado}`) || usuarios[usuarioFormatado];
-      const senhaTrocada = localStorage.getItem(`senhaTrocada_${usuarioFormatado}`);
-
-      if (senhaSalva && senhaSalva === senhaInput) {
-        sessionStorage.setItem('logadoCamargo', 'sim');
-        sessionStorage.setItem('usuarioCamargo', usuarioFormatado);
-        const tipo = gerenciais.includes(usuarioFormatado) ? "gerencial" : "comum";
-        sessionStorage.setItem("tipoCamargo", tipo);
-
-        if (senhaInput === "12345" && !senhaTrocada) {
+      try {
+        const resposta = await fetch("https://backend-404v.onrender.com/login", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ usuario, senha })
+        });
+        if (!resposta.ok) throw new Error("Login inválido");
+        const dados = await resposta.json();
+        sessionStorage.setItem("logadoCamargo", "sim");
+        sessionStorage.setItem("usuarioCamargo", usuario);
+        sessionStorage.setItem("tipoCamargo", dados.tipo);
+        if (senha === "12345") {
           window.location.href = "trocar-senha.html";
         } else {
           window.location.href = "index.html";
         }
-      } else {
-        erro.style.display = 'block';
+      } catch (e) {
+        erro.style.display = "block";
       }
     }
   </script>
-
-
-<script src="config.js"></script>
-<script>
-
-function removeAcentos(str) {
-  return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-}
-
-
-// Resetar senha salva ao digitar usuário
-const usuarioInputEl = document.getElementById('usuario');
-if (usuarioInputEl) {
-  usuarioInputEl.addEventListener('input', () => {
-    const usuarioFormatado = removeAcentos(usuarioInputEl.value.trim().toLowerCase());
-    localStorage.removeItem(`senha_{usuarioFormatado}`);
-    localStorage.removeItem(`senhaTrocada_{usuarioFormatado}`);
-  });
-}
-
-function login() {
-  const usuarioInput = document.getElementById('usuario').value.trim();
-  const senhaInput = document.getElementById('senha').value.trim();
-  const erro = document.getElementById('erro');
-  const usuarioFormatado = removeAcentos(usuarioInput.toLowerCase());
-
-  const dados = usuariosConfig[usuarioFormatado];
-  if (!dados) {
-    erro.style.display = 'block';
-    return;
-  }
-
-  const senhaSalva = localStorage.getItem(`senha_${usuarioFormatado}`) || dados.senha;
-  const senhaTrocada = localStorage.getItem(`senhaTrocada_${usuarioFormatado}`);
-
-  if (senhaSalva === senhaInput) {
-    sessionStorage.setItem("logadoCamargo", "sim");
-    sessionStorage.setItem("usuarioCamargo", usuarioFormatado);
-    sessionStorage.setItem("tipoCamargo", dados.tipo);
-
-    if (senhaInput === "12345" && !senhaTrocada) {
-      window.location.href = "trocar-senha.html";
-    } else {
-      window.location.href = "index.html";
-    }
-  } else {
-    erro.style.display = 'block';
-  }
-}
-</script>
-
 </body>
 </html>
